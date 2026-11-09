@@ -1,11 +1,6 @@
-
 import Link from "next/link";
-import { Menu, rupiah } from "../data/Menu";
-
 
 export default function Beranda() {
-  const terdekat = Menu.slice(0, 3);
-
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
       <section className="rounded-xl bg-pink-100 py-16 text-center">
@@ -24,8 +19,6 @@ export default function Beranda() {
           Lihat Menu
         </Link>
       </section>
-
-
     </main>
   );
 }

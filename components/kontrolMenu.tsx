@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Menu } from "../data/Menu";
-import kartuMenu from "./kartuMenu";
+import type { Menu } from "../data/Menu";
 import KartuMenu from "./kartuMenu";
 
 export default function KontrolMenu({ data }: { data: Menu[] }) {
@@ -14,13 +13,23 @@ export default function KontrolMenu({ data }: { data: Menu[] }) {
     .filter((item) =>
       item.nama.toLowerCase().includes(cari.toLowerCase())
     )
-    .filter((item) =>
-      kategori === "Semua" || item.kategori === kategori
+    .filter(
+      (item) =>
+        kategori === "Semua" || item.kategori === kategori
     )
     .sort((a, b) => {
-      if (urutan === "termurah") return a.harga - b.harga;
-      if (urutan === "termahal") return b.harga - a.harga;
-      if (urutan === "nama") return a.nama.localeCompare(b.nama);
+      if (urutan === "termurah") {
+        return a.harga - b.harga;
+      }
+
+      if (urutan === "termahal") {
+        return b.harga - a.harga;
+      }
+
+      if (urutan === "nama") {
+        return a.nama.localeCompare(b.nama);
+      }
+
       return a.id - b.id;
     });
 
@@ -64,7 +73,7 @@ export default function KontrolMenu({ data }: { data: Menu[] }) {
 
       {hasil.length === 0 ? (
         <p className="py-10 text-center text-gray-500">
-          Menu tidak ditemukan.
+          Menu tidak ditemukan
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">

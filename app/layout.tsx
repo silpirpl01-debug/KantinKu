@@ -1,5 +1,7 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import Navbar from "../components/navbar";
 
@@ -14,18 +16,32 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EventKu",
-  description: "Website katalog event sekolah",
+  title: "Kantinku",
+  description: "Aplikasi pemesanan menu kantin sekolah",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
-    <html
-      lang="id"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">
-        <Navbar />
+    <html lang="id">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <Suspense
+          fallback={
+            <div className="border-b bg-white px-6 py-4">
+              <span className="font-bold text-pink-600">
+                Kantinku
+              </span>
+            </div>
+          }
+        >
+          <Navbar />
+        </Suspense>
+
         {children}
       </body>
     </html>

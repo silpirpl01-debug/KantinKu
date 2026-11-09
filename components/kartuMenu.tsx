@@ -1,28 +1,58 @@
+
 import Link from "next/link";
-import { Menu, rupiah } from "../data/Menu";
+import { rupiah, type Menu } from "../data/Menu";
+import TambahFavorit from "./tambahfavorit";
 
 export default function KartuMenu({ item }: { item: Menu }) {
+  const habis = item.stok <= 0;
+
   return (
-    <div className="rounded-lg border bg-white p-5 shadow-sm hover:shadow-lg">
-      <h3 className="text-lg font-bold text-gray-800">
+    <div
+      className={`rounded-lg border p-5 shadow-sm transition ${
+        habis
+          ? "border-gray-300 bg-gray-100"
+          : "border-gray-200 bg-white hover:shadow-lg"
+      }`}
+    >
+      <h3
+        className={`text-lg font-bold ${
+          habis ? "text-gray-500" : "text-gray-800"
+        }`}
+      >
         {item.nama}
       </h3>
 
-      <p className="mt-2 text-gray-600">
+      <p className={`mt-2 ${habis ? "text-gray-400" : "text-gray-600"}`}>
         Kategori: {item.kategori}
       </p>
 
-      <p className="mt-2 font-bold text-pink-500">
+      <p
+        className={`mt-2 font-bold ${
+          habis ? "text-gray-500" : "text-pink-500"
+        }`}
+      >
         {rupiah(item.harga)}
       </p>
 
-      <p className={item.stok === 0 ? "mt-2 font-semibold text-red-500" : "mt-2 text-green-600"}>
-        {item.stok === 0 ? "Habis" : `Stok: ${item.stok}`}
+      <p
+        className={`mt-2 font-semibold ${
+          habis ? "text-gray-500" : "text-green-600"
+        }`}
+      >
+        {habis ? "Habis" : `Stok: ${item.stok}`}
       </p>
+
+      <div className="mt-3">
+        <TambahFavorit id={item.id} />
+      </div>
 
       <Link
         href={`/menu/${item.id}`}
-        className="mt-4 inline-block rounded bg-pink-500 px-4 py-2 text-white hover:bg-pink-600"
+        className={`mt-4 inline-block rounded px-4 py-2 text-white ${
+          habis
+            ? "bg-gray-500 hover:bg-gray-600"
+            : "bg-pink-500 hover:bg-pink-600"
+        }`}
       >
         Lihat Detail
       </Link>

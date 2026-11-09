@@ -1,12 +1,30 @@
+
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Menu, rupiah } from "../../../data/Menu";
+import TambahKeKeranjang from "../../../components/tambahkekeranjang";
+import TambahFavorit from "../../../components/tambahfavorit";
 
-export default async function DetailMenu({
-  params,
-}: {
+type Props = {
   params: Promise<{ id: string }>;
-}) {
+};
+
+export default function DetailMenu({ params }: Props) {
+  return (
+    <Suspense
+      fallback={
+        <main className="mx-auto max-w-3xl px-6 py-10">
+          <p className="text-gray-500">Memuat detail menu...</p>
+        </main>
+      }
+    >
+      <IsiDetailMenu params={params} />
+    </Suspense>
+  );
+}
+
+async function IsiDetailMenu({ params }: Props) {
   const { id } = await params;
 
   const item = Menu.find((menu) => menu.id === Number(id));
@@ -30,9 +48,26 @@ export default async function DetailMenu({
           {rupiah(item.harga)}
         </p>
 
-        <p className={item.stok === 0 ? "mt-3 font-semibold text-red-500" : "mt-3 text-green-600"}>
-          {item.stok === 0 ? "Habis" : `Stok tersedia: ${item.stok}`}
+        <p
+          className={
+            item.stok === 0
+              ? "mt-3 font-semibold text-red-500"
+              : "mt-3 text-green-600"
+          }
+        >
+          {item.stok === 0
+            ? "Habis"
+            : `Stok tersedia: ${item.stok}`}
         </p>
+
+        <TambahFavorit id={item.id} />
+
+        <TambahKeKeranjang
+          id={item.id}
+          nama={item.nama}
+          harga={item.harga}
+          stok={item.stok}
+        />
 
         <Link
           href="/menu"

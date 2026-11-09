@@ -1,6 +1,7 @@
 import { Menu } from "../../data/Menu";
 import KontrolMenu from "../../components/kontrolMenu";
 
+
 export default function HalamanMenu() {
   return (
     <main className="mx-auto max-w-6xl px-6 py-10">
